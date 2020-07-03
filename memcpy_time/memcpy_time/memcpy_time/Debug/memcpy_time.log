@@ -1,2 +1,0 @@
-﻿kernel.cu.obj : error LNK2005: _main は既に sample.cu.obj で定義されています。
-C:\Users\ct01\Documents\GitHub\CUDA_Test\CUDA_Test\memcpy_time\memcpy_time\Debug\memcpy_time.exe : fatal error LNK1169: 1 つ以上の複数回定義されているシンボルが見つかりました。
