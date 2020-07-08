@@ -5,8 +5,11 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <string>
 
 #include "cuda_runtime.h"
+
+using namespace std;
 
 // cudaのエラー検出用マクロ
 #define EXIT_IF_FAIL(call)                                                     \
@@ -42,16 +45,17 @@ public:
     EXIT_IF_FAIL(cudaEventRecord(end));
   }
   // 測定結果を出力
-  void report() {
+  float report(string s, bool flg = true) {
     // イベントendが終わるまで待つ
     EXIT_IF_FAIL(cudaEventSynchronize(end));
     float elapsed;
     EXIT_IF_FAIL(cudaEventElapsedTime(&elapsed, start, end));
-    printf("elapsed: %f ms\n", elapsed);
+    if(flg) printf("%s: %f ms\n",s.c_str(), elapsed);
+    return elapsed;
   }
-  void stop_and_report() {
+  float stop_and_report(string s, bool flg = true) {
     stop();
-    report();
+    return report(s, flg);
   }
 };
 
