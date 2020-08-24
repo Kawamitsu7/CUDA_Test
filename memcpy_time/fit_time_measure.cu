@@ -90,21 +90,33 @@ void memFree(){
 	return;
 }
 
-void put_csv(){
+void csv_out() {ofs << endl;}
+
+template <typename Head, typename... Tail>
+void csv_out(Head H, Tail... T){
+	ofs << H;
+	csv_out(T...);
+}
+#define csvo(...) csv_out(__VA_ARGS__)
+
+void put_csv(long long Bytes){
 	// エラーチェック
 	assert(h2d.size() == d2d.size() && d2d.size() == d2h.size());
-	// 項目の入力
-	ofs << "H2D" << "," << "," << "D2D" << "," << "," << "D2H" << "," << endl;
+	
+	/*
 	// データ入力
 	for(long long ind = 0; ind < h2d.size(); ++ind){
 		ofs << h2d.at(ind) << "," << "," << d2d.at(ind) << "," << "," << d2h.at(ind) << "," << endl;
 	}
+	*/
+	
 	// 平均データ入力
 	float h2d_ave = accumulate(h2d.begin(),h2d.end(),0.0f) / h2d.size();
 	float d2d_ave = accumulate(d2d.begin(),d2d.end(),0.0f) / d2d.size();
 	float d2h_ave = accumulate(d2h.begin(),d2h.end(),0.0f) / d2h.size();
-	ofs << "," << "Ave." <<endl;
-	ofs << h2d_ave << "," << "," << d2d_ave << "," << "," << d2h_ave << "," << endl;
+	//ofs << "," << "Ave." <<endl;
+	//ofs << h2d_ave << "," << "," << d2d_ave << "," << "," << d2h_ave << "," << endl;
+	
 	// 中央値データ入力
 	sort(all(h2d));	sort(all(d2d));	sort(all(d2h));
 	size_t med_ind = h2d.size() / 2;
@@ -117,31 +129,42 @@ void put_csv(){
 	float d2h_med = (d2h.size() % 2 == 0
     ? static_cast<float>(d2h[med_ind] + d2h[med_ind - 1]) / 2
 	: d2h[med_ind]);
-	ofs << "," << "Med." <<endl;
-	ofs << h2d_med << "," << "," << d2d_med << "," << "," << d2h_med << "," << endl;
+	//ofs << "," << "Med." <<endl;
+	//ofs << h2d_med << "," << "," << d2d_med << "," << "," << d2h_med << "," << endl;
+
+	// データ書き込み
+	csvo(Bytes/1024,",,",h2d_ave,",",d2d_ave,",",d2h_ave,",,",h2d_med,",",d2d_med,",",d2h_med);
 }
 
 int main() {
+
+	string data_name = "time_plot_data.csv";
+	ofs.open(data_name);
+	// 項目の入力
+	csvo("(KBytes)\\(msec.),","<Ave.>,","H2D,","D2D,","D2H,","<Med.>,","H2D,","D2D,","D2H");
+	//ofs << "H2D" << "," << "," << "D2D" << "," << "," << "D2H" << "," << endl;
+
 	// for(long long ele : n_list){
-	long long ele = 1024;
-	while(ele < 1024LL*1024*1024*4){
-		//2GBまで?
+	long long ele = 256LL;
+	long long add = 256LL;
+	long long base = 10LL;
+	long long div = 1024LL;
+	bool flg = false;
+	while(ele < 1024LL*1024*512){	//1GBまで?
 		n = ele;
 		nBytes = n * sizeof(float);
-		string data_name;
 		if(nBytes / (1024 * 1024) > 0){
 			cout << "transport data size : " << nBytes / (1024 * 1024) << "[M Bytes]" << endl;
-			data_name = to_string(nBytes / (1024 * 1024)) + "M_Bytes_measure.csv";
+			// data_name = to_string(nBytes / (1024 * 1024)) + "M_Bytes_measure.csv";
 		}
 		else if(nBytes / 1024 > 0){
 			cout << "transport data size : " << nBytes / 1024 << "[K Bytes]" << endl;
-			data_name = to_string(nBytes / 1024) + "K_Bytes_measure.csv";
+			// data_name = to_string(nBytes / 1024) + "K_Bytes_measure.csv";
 		}
 		else{
 			cout << "transport data size : " << nBytes << "[Bytes]" << endl;
-			data_name = to_string(nBytes) + "Bytes_measure.csv";
+			// data_name = to_string(nBytes) + "Bytes_measure.csv";
 		}
-		ofs.open(data_name);
 
 		h2d.clear();
 		d2d.clear();
@@ -154,12 +177,23 @@ int main() {
 		}
 	
 		cout << "finished" << "\n";
+		put_csv(nBytes);
 
-		put_csv();
-		ofs.close();
-
-		ele *= 2;
+		if(nBytes / div >= base){
+			base *= 10;
+			add *= 10;
+		}
+		ele += add;
+		if(!flg && ele * sizeof(float) / 1024 > 1000){
+			flg = true;
+			div *= 1024;
+			base = 10;
+			add = 256LL * 1024;
+			ele = 256LL * 1024;
+		}
 	}
+
+	ofs.close();
 
 	return 0;
 	/*
