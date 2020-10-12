@@ -20,7 +20,7 @@
 // コピー用変数の準備
 float *a_h, *b_h;	// ホストデータ
 cudaPitchedPtr a_d, b_d;	// デバイスデータ
-size_t pitch, s[3], cut[2]; ll nBytes, ele; 
+size_t pitch, s[3], cut[2], sum_Bytes; ll nBytes, ele; 
 // s[3] : データ数 [0]width [1]height [2]depth
 // cut : 一行のデータ数 / pitch : 横方向のピッチ(bytes) /nBytes:総データ量(bytes)
 
@@ -228,7 +228,7 @@ void put_csv(long long Bytes){
 	//ofs << h2d_med << "," << "," << d2d_med << "," << "," << d2h_med << "," << endl;
 
 	// データ書き込み
-	csvo(Bytes/1024,",,",h2d_ave,",",d2d_ave,",",d2h_ave,",,",h2d_med,",",d2d_med,",",d2h_med);
+	csvo(sum_Bytes/1024,",,",h2d_ave,",",d2d_ave,",",d2h_ave,",,",h2d_med,",",d2d_med,",",d2h_med);
 }
 
 int main() {
@@ -239,8 +239,8 @@ int main() {
 		cut[1] = 1;
 
 		while(cut[0]*cut[1] <= 256){
-			cout << to_string(cut[0]) << ":" << to_string(cut[1]) << "cut_processing\n";
-			string data_name = to_string(cut[0]) + ":" + to_string(cut[1]) + "cut_time_plot_data_" +  ".csv";
+			string data_name = to_string(cut[0]) + "by" + to_string(cut[1]) + "_cut_time_plot_data_" +  ".csv";
+			cout << data_name << " <-- processing\n";
 			ofs.open(data_name);
 			// 項目の入力
 			csvo("(KBytes)\\(msec.),","<Ave.>,","H2D,","D2D,","D2H,","<Med.>,","H2D,","D2D,","D2H");
@@ -261,7 +261,7 @@ int main() {
 				s[0] = (size_t)ele / (s[1] * s[2]);
 				nBytes = s[0] * sizeof(float);
 				pitch = nBytes;
-				ll sum_Bytes = nBytes * s[1] * s[2];
+				sum_Bytes = nBytes * s[1] * s[2];
 				if(sum_Bytes / (1024 * 1024) > 0){
 					cout << "transport data size : " << sum_Bytes / (1024 * 1024) << "[M Bytes]" << endl;
 					// data_name = to_string(nBytes / (1024 * 1024)) + "M_Bytes_measure.csv";
