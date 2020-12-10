@@ -1,0 +1,10 @@
+﻿  measure.cpp
+C:\opencv\build\include\opencv2/calib3d.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+..\src\measure.cpp(68): warning C4244: '引数': 'll' から 'int' への変換です。データが失われる可能性があります。
+  コード生成しています。
+  12 of 282 functions ( 4.3%) were compiled, the rest were copied from previous compilation.
+    6 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  test.vcxproj -> C:\Users\ct01\Documents\GitHub\CUDA_Test\CUDA_Test\opencv_test\test\x64\Release\test.exe
+  test.vcxproj -> C:\Users\ct01\Documents\GitHub\CUDA_Test\CUDA_Test\opencv_test\test\x64\Release\test.pdb (Full PDB)

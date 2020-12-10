@@ -1,0 +1,2 @@
+﻿  measure.cpp
+c:\users\ct01\documents\github\cuda_test\cuda_test\opencv_test\test\src\measure.cpp(4): fatal error C1083: include ファイルを開けません。'opencv2/opencv.hpp':No such file or directory

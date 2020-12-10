@@ -1,0 +1,7 @@
+﻿  cvtest.cpp
+C:\opencv\build\include\opencv2/calib3d.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  コード生成しています。
+  All 280 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  コード生成が終了しました。
+  test2.vcxproj -> C:\Users\ct01\Documents\GitHub\CUDA_Test\CUDA_Test\opencv_test\test2\test2\x64\Release\test2.exe
+  test2.vcxproj -> C:\Users\ct01\Documents\GitHub\CUDA_Test\CUDA_Test\opencv_test\test2\test2\x64\Release\test2.pdb (Full PDB)
