@@ -219,8 +219,13 @@ void doJob(const float * org_dev, float * pad_1d_h, float * pad_2d_h){
 // 2Dでゼロパディング
 	pad_d = NULL;
 
+	/*
 	CUDA_SAFE_CALL(cudaMallocPitch((void **)&pad_d, &pad_w_mem, pad_w_mem, s[1]));
 	CUDA_SAFE_CALL(cudaMemset2D(pad_d, pad_w_mem, 0.0f, pad_w_mem, s[1]));
+	*/
+
+	CUDA_SAFE_CALL(cudaMalloc((void **)&pad_d, buffMemSize));
+	CUDA_SAFE_CALL(cudaMemset(pad_d, 0, buffMemSize));
 
 	QueryPerformanceCounter(&start);
 
