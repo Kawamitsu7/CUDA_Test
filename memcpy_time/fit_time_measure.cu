@@ -27,7 +27,7 @@ long long n, nBytes; // n:データ数 / nBytes:総データ量(bytes)
 vector<float> h2d, d2d, d2h;
 // その他制御変数
 bool flg = false; // printf起動制御
-int itr_times = 100; // 一つの条件に対する実験の繰り返し回数
+int itr_times = 1000; // 一つの条件に対する実験の繰り返し回数
 ofstream ofs;
 random_device seed_gen;
 uniform_real_distribution<float> dist(-1.0,1.0);
